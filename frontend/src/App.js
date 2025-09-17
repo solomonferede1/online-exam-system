@@ -1,25 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useContext } from 'react';
+import { AuthProvider, AuthContext } from './context/AuthContext';
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+import { api } from './services/api';
 
-function App() {
+function Home() {
+  const { user, logout } = useContext(AuthContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: 24 }}>
+      <h2>Welcome {user?.username || 'User'}</h2>
+      <button onClick={logout}>Logout</button>
+      <div style={{ marginTop: 16 }}>
+        <button onClick={async () => alert(JSON.stringify(await api.health()))}>Ping API</button>
+      </div>
     </div>
   );
 }
 
-export default App;
+function App() {
+  const { isAuthenticated } = useContext(AuthContext);
+  return (
+    <div>
+      {isAuthenticated ? (
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      ) : (
+        <Login />
+      )}
+    </div>
+  );
+}
+
+export default function Root() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
