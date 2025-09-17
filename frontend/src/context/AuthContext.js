@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
       const tokens = await api.login({ username, password });
       setAuthTokens(tokens);
       setAccessToken(tokens.access);
-      setUser({ username });
+      try { setUser(await api.me()); } catch { setUser({ username }); }
       return true;
     } finally {
       setLoading(false);
@@ -23,6 +23,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(() => {
+    const refresh = localStorage.getItem('refresh_token');
+    if (refresh) { api.logout(refresh).catch(() => {}); }
     clearAuthTokens();
     setAccessToken(null);
     setUser(null);
@@ -31,7 +33,9 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => ({ isAuthenticated, accessToken, user, login, logout, loading }), [isAuthenticated, accessToken, user, login, logout, loading]);
 
   useEffect(() => {
-    // Optional: could decode JWT for user info
+    if (accessToken) {
+      api.me().then(setUser).catch(() => {});
+    }
   }, [accessToken]);
 
   return (

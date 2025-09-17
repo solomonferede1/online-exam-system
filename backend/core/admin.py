@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Exam, Question, Choice, Submission
+from .models import Exam, Question, Choice, Submission, UserProfile
 
 
 @admin.register(Exam)
@@ -20,5 +20,10 @@ class ChoiceAdmin(admin.ModelAdmin):
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('id', 'user_id', 'exam', 'score', 'created_at')
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'role', 'created_at')
 
 # Register your models here.

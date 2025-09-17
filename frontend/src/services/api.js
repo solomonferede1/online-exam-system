@@ -49,6 +49,8 @@ export const api = {
   register: (payload) => request('/auth/register/', { method: 'POST', body: payload, auth: false }),
   login: (payload) => request('/auth/token/', { method: 'POST', body: payload, auth: false }),
   refresh: (payload) => request('/auth/token/refresh/', { method: 'POST', body: payload, auth: false }),
+  me: () => request('/auth/me/', { method: 'GET' }),
+  logout: (refresh) => request('/auth/logout/', { method: 'POST', body: { refresh } }),
 };
 
 

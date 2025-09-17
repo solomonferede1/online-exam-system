@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class TimestampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -41,3 +42,16 @@ class Submission(TimestampedModel):
 
     def __str__(self):
         return f"Submission {self.id} - Exam {self.exam_id}"
+
+
+class UserProfile(TimestampedModel):
+    class Roles(models.TextChoices):
+        ADMIN = 'ADMIN', 'Admin'
+        INSTRUCTOR = 'INSTRUCTOR', 'Instructor'
+        STUDENT = 'STUDENT', 'Student'
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=16, choices=Roles.choices, default=Roles.STUDENT)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.role})"
