@@ -19,6 +19,9 @@ urlpatterns = [
 
 router = DefaultRouter()
 router.register(r'exams', views.ExamViewSet, basename='exam')
+router.register(r'users', views.UserViewSet, basename='user')
+router.register(r'questions', views.QuestionViewSet, basename='question')
+router.register(r'choices', views.ChoiceViewSet, basename='choice')
 
 urlpatterns += router.urls
 

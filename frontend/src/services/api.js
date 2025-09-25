@@ -60,6 +60,21 @@ export const api = {
   refresh: (payload) => request('/auth/token/refresh/', { method: 'POST', body: payload, auth: false }),
   me: () => request('/auth/me/', { method: 'GET' }),
   logout: (refresh) => request('/auth/logout/', { method: 'POST', body: { refresh } }),
+  getUsers: () => request('/users/', { method: 'GET' }),
+  createUser: (payload) => request('/users/', { method: 'POST', body: payload }),
+  updateUser: (id, payload) => request(`/users/${id}/`, { method: 'PUT', body: payload }),
+  deleteUser: (id) => request(`/users/${id}/`, { method: 'DELETE' }),
+  getExams: () => request('/exams/', { method: 'GET' }),
+  getExam: (id) => request(`/exams/${id}/`, { method: 'GET' }),
+  createExam: (payload) => request('/exams/', { method: 'POST', body: payload }),
+  updateExam: (id, payload) => request(`/exams/${id}/`, { method: 'PUT', body: payload }),
+  deleteExam: (id) => request(`/exams/${id}/`, { method: 'DELETE' }),
+  createQuestion: (examId, payload) => request(`/exams/${examId}/questions/`, { method: 'POST', body: payload }),
+  updateQuestion: (id, payload) => request(`/questions/${id}/`, { method: 'PUT', body: payload }),
+  deleteQuestion: (id) => request(`/questions/${id}/`, { method: 'DELETE' }),
+  createChoice: (questionId, payload) => request(`/questions/${questionId}/choices/`, { method: 'POST', body: payload }),
+  updateChoice: (id, payload) => request(`/choices/${id}/`, { method: 'PUT', body: payload }),
+  deleteChoice: (id) => request(`/choices/${id}/`, { method: 'DELETE' }),
 };
 
 

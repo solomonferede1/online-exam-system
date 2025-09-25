@@ -23,6 +23,8 @@ from .serializers import (
     ExamDetailSerializer,
     AttemptSerializer,
     AnswerSerializer,
+    QuestionSerializer,
+    ChoiceSerializer,
 )
 from .permissions import ReadOnlyOrInstructorAdmin, IsInstructorOrAdmin, IsAdmin
 from rest_framework import viewsets, decorators
@@ -79,6 +81,12 @@ def logout(request):
         except Exception:
             pass
     return Response({'detail': 'logged out'})
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-id')
+    serializer_class = UserSerializer
+    permission_classes = [IsAdmin]
 
 
 class ExamViewSet(viewsets.ModelViewSet):
@@ -157,3 +165,13 @@ class ExamViewSet(viewsets.ModelViewSet):
         for s in submissions:
             writer.writerow([s.id, s.user_id, s.exam_id, s.score, s.created_at.isoformat()])
         return response
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsInstructorOrAdmin]
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    queryset = Choice.objects.all()
+    serializer_class = ChoiceSerializer
+    permission_classes = [IsInstructorOrAdmin]
