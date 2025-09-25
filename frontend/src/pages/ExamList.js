@@ -16,7 +16,13 @@ export default function ExamList() {
       .health() // test connectivity
       .then(() => fetch(`${process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1'}/exams/`, { headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` } }))
       .then((r) => r.json())
-      .then(setExams)
+      .then(data => {
+        if (data.results) {
+          setExams(data.results);
+        } else {
+          setExams(data);
+        }
+      })
       .catch((e) => setError(e.message || 'Failed to load exams'));
   }, []);
 
