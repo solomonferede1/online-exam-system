@@ -24,12 +24,13 @@ import Profile from './pages/student/Profile';
 function Home() {
   const { user, logout } = useContext(AuthContext);
   return (
-    <div style={{ padding: 24 }}>
-      <h2>Welcome {user?.username || 'User'}</h2>
-      <button onClick={logout}>Logout</button>
-      <div style={{ marginTop: 16 }}>
-        <button onClick={async () => alert(JSON.stringify(await api.health()))}>Ping API</button>
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold mb-4">Welcome {user?.username || 'User'}</h2>
+      <div className="flex items-center gap-3">
+        <button className="bg-blue-600 text-white px-3 py-2 rounded" onClick={async () => alert(JSON.stringify(await api.health()))}>Ping API</button>
+        <button className="border px-3 py-2 rounded" onClick={logout}>Logout</button>
       </div>
+      <p className="text-gray-600 mt-4">Use the left sidebar to navigate.</p>
     </div>
   );
 }
