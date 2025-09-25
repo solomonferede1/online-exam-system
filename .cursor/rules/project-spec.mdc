@@ -113,14 +113,14 @@ frontend/
 - Authentication via **JWT + RBAC**.
 
 ### 2. Exam Management
-- Admin/Examiner can create, edit, assign exams.  
-- Questions randomized per user.  
+- Admin/Examiner(instructor) can create, edit, assign exams.  
 - Support single-question navigation.  
 - Backend enforces exam duration & active time windows.
 
 ### 3. Exam Taking
 - One question per screen.  
 - Countdown timer with auto-submit.  
+- Questions randomized per user.  
 - Real-time autosave of answers.  
 - Prevent backdoor attempts (double-submit, URL skipping).
 
