@@ -1,3 +1,5 @@
+"""DRF serializers for core models and auth payloads."""
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 

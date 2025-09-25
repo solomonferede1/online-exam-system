@@ -1,3 +1,12 @@
+/**
+ * API client utilities for communicating with the Django backend.
+ *
+ * Exposes helpers for authentication token storage and typed requests to
+ * versioned endpoints. By default includes Authorization header when a token
+ * exists. Consumers should use `api.login`, `api.register`, `api.me`, etc.
+ *
+ * @module services/api
+ */
 const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:8000/api/v1';
 
 export function getApiBase() {

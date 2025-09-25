@@ -1,3 +1,9 @@
+/**
+ * Simple login form component.
+ *
+ * On submit calls the AuthContext `login` and displays inline error on failure.
+ * Used on the root route when unauthenticated.
+ */
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 

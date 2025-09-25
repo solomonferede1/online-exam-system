@@ -1,7 +1,14 @@
+"""Core domain models for the Online Exam System.
+
+Defines timestamp base, exams, questions, choices, submissions (legacy),
+user profile with roles, attempts and answers for autosave and scoring.
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 
 class TimestampedModel(models.Model):
+    """Abstract base model that tracks creation and update timestamps."""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -10,6 +17,7 @@ class TimestampedModel(models.Model):
 
 
 class Exam(TimestampedModel):
+    """An exam containing many questions with a fixed duration."""
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     duration_minutes = models.PositiveIntegerField(default=60)
@@ -19,6 +27,7 @@ class Exam(TimestampedModel):
 
 
 class Question(TimestampedModel):
+    """A question that belongs to a specific exam."""
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='questions')
     text = models.TextField()
 
@@ -27,6 +36,7 @@ class Question(TimestampedModel):
 
 
 class Choice(TimestampedModel):
+    """A possible answer choice for a multiple-choice question."""
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
     text = models.CharField(max_length=500)
     is_correct = models.BooleanField(default=False)
@@ -36,6 +46,7 @@ class Choice(TimestampedModel):
 
 
 class Submission(TimestampedModel):
+    """Legacy submission record with a computed score per exam per user."""
     user_id = models.IntegerField()  # can be replaced with FK to auth.User later
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='submissions')
     score = models.FloatField(default=0.0)
@@ -45,6 +56,7 @@ class Submission(TimestampedModel):
 
 
 class UserProfile(TimestampedModel):
+    """Profile for a Django user including a single role used for RBAC."""
     class Roles(models.TextChoices):
         ADMIN = 'ADMIN', 'Admin'
         INSTRUCTOR = 'INSTRUCTOR', 'Instructor'
@@ -58,6 +70,7 @@ class UserProfile(TimestampedModel):
 
 
 class Attempt(TimestampedModel):
+    """An active or completed attempt of a user taking an exam."""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='attempts')
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='attempts')
     started_at = models.DateTimeField(auto_now_add=True)
@@ -68,6 +81,7 @@ class Attempt(TimestampedModel):
 
 
 class Answer(TimestampedModel):
+    """User's response for a question within an attempt (supports autosave)."""
     attempt = models.ForeignKey(Attempt, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     selected_choice = models.ForeignKey(Choice, null=True, blank=True, on_delete=models.SET_NULL)

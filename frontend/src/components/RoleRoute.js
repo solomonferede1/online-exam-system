@@ -1,3 +1,10 @@
+/**
+ * Role-based route guard component.
+ *
+ * @param {{ roles: string[], children: React.ReactNode }} props Allowed roles
+ * list; when set and current user's role is not included, shows an access
+ * denied message.
+ */
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 

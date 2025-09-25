@@ -1,3 +1,9 @@
+"""Core API views.
+
+Includes health check, auth/register/me/logout endpoints, and the ExamViewSet
+with start, autosave, submit, and export actions.
+"""
+
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response

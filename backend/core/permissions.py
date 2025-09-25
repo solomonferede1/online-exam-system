@@ -1,3 +1,5 @@
+"""Custom DRF permission classes for role-based access control (RBAC)."""
+
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 

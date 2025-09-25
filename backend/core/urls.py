@@ -1,3 +1,5 @@
+"""Core app URL routing: health, auth, JWT, and exam viewset."""
+
 from django.urls import path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,

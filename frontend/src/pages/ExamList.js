@@ -1,3 +1,8 @@
+/**
+ * Exams listing page (authenticated).
+ *
+ * Fetches exams from the API and renders a simple Tailwind list.
+ */
 import React, { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { Link } from 'react-router-dom';

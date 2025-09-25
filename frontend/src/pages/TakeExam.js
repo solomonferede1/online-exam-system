@@ -1,3 +1,9 @@
+/**
+ * Take Exam page with periodic autosave.
+ *
+ * Loads exam details, starts (or resumes) an attempt, stores local answer
+ * selections, autosaves every 5 seconds, and allows submit to compute score.
+ */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 

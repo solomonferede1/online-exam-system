@@ -1,3 +1,12 @@
+/**
+ * React context providing authentication state and actions.
+ *
+ * Holds access token and current user (from /auth/me). Provides `login` and
+ * `logout` actions, and exposes `isAuthenticated` boolean. Intended to wrap
+ * the app root so that children can access auth state via `useContext`.
+ *
+ * @module context/AuthContext
+ */
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { api, setAuthTokens, clearAuthTokens, getAuthToken } from '../services/api';
 

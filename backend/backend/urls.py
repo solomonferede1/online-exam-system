@@ -14,6 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+"""Project URL configuration.
+
+Maps versioned API routes and the Django admin.
+"""
+
 from django.contrib import admin
 from django.urls import include, path
 
