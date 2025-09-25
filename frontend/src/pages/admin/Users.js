@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { api } from '../../services/api';
-import UserForm from './UserForm';
+import React, { useState, useEffect } from "react";
+import { api } from "../../services/api";
+import UserForm from "./UserForm";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -23,7 +23,7 @@ export default function Users() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+    if (window.confirm("Are you sure you want to delete this user?")) {
       await api.deleteUser(id);
       fetchUsers();
     }
@@ -46,7 +46,9 @@ export default function Users() {
       {showForm && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">{editingUser ? 'Edit User' : 'Create User'}</h2>
+            <h2 className="text-xl font-bold mb-4">
+              {editingUser ? "Edit User" : "Create User"}
+            </h2>
             <UserForm user={editingUser} onSave={handleSave} />
             <button
               onClick={() => setShowForm(false)}
@@ -72,11 +74,7 @@ export default function Users() {
               <tr key={user.id} className="border-b">
                 <td className="px-4 py-2">{user.username}</td>
                 <td className="px-4 py-2">{user.email}</td>
-<<<<<<< HEAD
-                <td className="px-4 py-2">{user.profile?.role}</td>
-=======
-                <td className="px-4 py-2">{user.profile?.role || '—'}</td>
->>>>>>> a80233f803880795e7ba840590e5836b433414d5
+                <td className="px-4 py-2">{user.profile?.role || "—"}</td>
                 <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => {
@@ -102,6 +100,3 @@ export default function Users() {
     </div>
   );
 }
-
-
-
