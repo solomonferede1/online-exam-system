@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from . import views
+from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path('health/', views.health, name='health'),
@@ -13,5 +14,10 @@ urlpatterns = [
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+router = DefaultRouter()
+router.register(r'exams', views.ExamViewSet, basename='exam')
+
+urlpatterns += router.urls
 
 

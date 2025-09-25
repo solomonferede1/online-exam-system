@@ -4,6 +4,9 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import { api } from './services/api';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import ExamList from './pages/ExamList';
+import TakeExam from './pages/TakeExam';
 
 function Home() {
   const { user, logout } = useContext(AuthContext);
@@ -36,7 +39,13 @@ function App() {
 export default function Root() {
   return (
     <AuthProvider>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/exams" element={<ProtectedRoute><ExamList /></ProtectedRoute>} />
+          <Route path="/exams/:id" element={<ProtectedRoute><TakeExam /></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }

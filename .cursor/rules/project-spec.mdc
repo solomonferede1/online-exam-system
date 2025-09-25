@@ -1,0 +1,149 @@
+---
+description: Core rules, conventions, and architectural guidelines for the Online Exam System project.
+globs:
+alwaysApply: true
+---
+
+## Project Overview: Online Examination System
+You are an expert full-stack developer working on the Online Exam System for Ethiopian Electric Power (EEP).  
+Your primary goal is to build a secure, role-based, web-based platform that enables exam creation, administration, and participation with real-time scoring and export capabilities.  
+
+Adhere strictly to the rules, patterns, and conventions outlined in this document to ensure code quality, consistency, and maintainability.
+
+---
+
+## Technology Stack
+- **Frontend:** React + Tailwind CSS  
+- **Backend:** Django (Python) REST API  
+- **Database:** PostgreSQL  
+- **Authentication:** JWT (role-based access control)  
+- **Deployment:** Ubuntu server with Nginx + Gunicorn  
+- **Testing:** Jest (frontend), Django unit & integration tests (backend)  
+
+---
+
+## Architecture & Code Style
+
+### Directory Structure
+
+backend/
+│── manage.py
+│── .env
+│── backend/ # Django project settings
+│ │── init.py
+│ │── asgi.py
+│ │── settings.py
+│ │── urls.py
+│ │── wsgi.py
+│
+│── core/ # Common utilities, configs
+│ │── init.py
+│ │── admin.py
+│ │── apps.py
+│ │── models.py
+│ │── serializers.py
+│ │── tests.py
+│ │── urls.py
+│ │── views.py
+│ └── migrations/
+│
+│── users/ # Auth & roles
+│ │── init.py
+│ │── models.py
+│ │── serializers.py
+│ │── views.py
+│ │── urls.py
+│ └── permissions.py
+│
+│── exams/ # Exam management
+│ │── init.py
+│ │── models.py
+│ │── serializers.py
+│ │── views.py
+│ │── urls.py
+│ └── services.py
+│
+│── results/ # Scores & exports
+│ │── init.py
+│ │── models.py
+│ │── serializers.py
+│ │── views.py
+│ │── urls.py
+│ └── exporters.py
+
+
+frontend/
+│── src/
+│ │── components/
+│ │── pages/
+│ │── hooks/
+│ │── utils/
+│── public/
+│── package.json
+│── tailwind.config.js
+
+
+### Component & Service Design
+- Keep **UI logic in React (frontend)**.  
+- Keep **business rules in Django (backend)**.  
+- Use **REST endpoints** for communication.  
+- Enforce **role-based access control (RBAC)** in backend.
+
+### Naming Conventions
+- Components: **PascalCase** (`ExamInterface.jsx`)  
+- Utilities/services: **camelCase** (`calculateScore.py`, `exportResults.js`)  
+- Database tables: **snake_case** (`exam_attempts`, `result_exports`)  
+
+### Error Handling
+- Backend: `try/except` with proper HTTP codes (`401`, `403`, `422`).  
+- Frontend: show clear error messages, fallback UI for failed API calls.  
+- Log exports and admin actions for auditing.
+
+### Secrets
+- Use `.env` for DB credentials, JWT secrets, API tokens.  
+- Never hardcode sensitive information.
+
+---
+
+## Project Rules (UI & Features)
+
+### 1. User Management
+- Admin only can create users.  
+- Examinees can reset passwords and update profiles.  
+- Authentication via **JWT + RBAC**.
+
+### 2. Exam Management
+- Admin/Examiner can create, edit, assign exams.  
+- Questions randomized per user.  
+- Support single-question navigation.  
+- Backend enforces exam duration & active time windows.
+
+### 3. Exam Taking
+- One question per screen.  
+- Countdown timer with auto-submit.  
+- Real-time autosave of answers.  
+- Prevent backdoor attempts (double-submit, URL skipping).
+
+### 4. Results & Exports
+- Auto-calculated scores after submission.  
+- Examinees see only their results.  
+- Department Heads see department results.  
+- HR/Admin can export results with audit logs.  
+- CSV export includes export tracking.
+
+### 5. UI Consistency
+- Tailwind + shadcn/ui components.  
+- Confirm destructive actions.  
+- Fully responsive and mobile-friendly.
+
+---
+
+## Deployment on Ubuntu with Nginx
+
+### Backend (Django + Gunicorn)
+```bash
+# Install dependencies
+pip install gunicorn psycopg2-binary django djangorestframework
+
+# Run server
+gunicorn backend.wsgi:application --bind 0.0.0.0:800
