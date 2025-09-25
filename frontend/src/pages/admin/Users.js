@@ -72,7 +72,11 @@ export default function Users() {
               <tr key={user.id} className="border-b">
                 <td className="px-4 py-2">{user.username}</td>
                 <td className="px-4 py-2">{user.email}</td>
+<<<<<<< HEAD
                 <td className="px-4 py-2">{user.profile?.role}</td>
+=======
+                <td className="px-4 py-2">{user.profile?.role || '—'}</td>
+>>>>>>> a80233f803880795e7ba840590e5836b433414d5
                 <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => {
