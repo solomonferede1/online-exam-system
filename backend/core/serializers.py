@@ -13,11 +13,37 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(read_only=True)
+    profile = UserProfileSerializer()
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'profile']
+        fields = ['id', 'username', 'email', 'password', 'profile']
+        extra_kwargs = { 'password': { 'write_only': True, 'required': False } }
+
+    def create(self, validated_data):
+        profile_data = validated_data.pop('profile', {})
+        password = validated_data.pop('password', None)
+        user = User(**validated_data)
+        if password:
+            user.set_password(password)
+        user.save()
+        if profile_data:
+            UserProfile.objects.update_or_create(user=user, defaults=profile_data)
+        else:
+            UserProfile.objects.get_or_create(user=user)
+        return user
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile', {})
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)
+        instance.save()
+        if profile_data is not None:
+            UserProfile.objects.update_or_create(user=instance, defaults=profile_data)
+        return instance
 
 
 class RegisterSerializer(serializers.Serializer):
