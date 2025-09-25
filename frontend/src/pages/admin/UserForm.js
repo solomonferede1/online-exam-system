@@ -11,7 +11,7 @@ export default function UserForm({ user, onSave }) {
     if (user) {
       setUsername(user.username);
       setEmail(user.email);
-      setRole(user.profile.role);
+      setRole(user?.profile?.role || 'STUDENT');
     }
   }, [user]);
 
